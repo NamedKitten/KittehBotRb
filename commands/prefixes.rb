@@ -1,5 +1,9 @@
+require "redis"
+
 module Prefixes
   extend Discordrb::Commands::CommandContainer
+  redis = Redis.new
+  
   command(:prefix, help_available: true, description: "Manage prefixes.") do |event, *args|
     if args[0] == "global"
       if args[1] == "set"

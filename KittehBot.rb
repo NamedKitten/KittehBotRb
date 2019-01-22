@@ -16,7 +16,11 @@ prefix_proc = proc do |message|
   if message.content =~ /\A#{bot_mention}/
     message.content[bot_mention.size..-1]
   else
-    prefix = redis.get(String(message.author.id) + "-prefix") || redis.get(String(message.channel.server.id) + "-prefix") || CONFIG["default_prefix"]
+    prefix = redis.get(String(message.author.id) + "-prefix")
+    if (!message.channel.id == message.author.id)
+      prefix = prefix || redis.get(String(message.channel.server.id) + "-prefix") 
+    end
+    prefix = prefix || CONFIG["default_prefix"]
     message.content[prefix.size..-1] if message.content.start_with?(prefix)
   end
 end
