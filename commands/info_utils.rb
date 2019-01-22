@@ -51,7 +51,7 @@ module InfoUtils
       e.color = "FFAAFF"
       e.add_field(name: "Ruby Version", value: RUBY_DESCRIPTION, inline: true)
       e.add_field(name: "DiscordRb Version", value: Gem.loaded_specs["discordrb"].version, inline: true)
-      e.add_field(name: "ExecJS Version", value: Gem.loaded_specs["execjs"].version, inline: true)
+      e.add_field(name: "Redis Version", value: Gem.loaded_specs["redis"].version, inline: true)
 
       if (RUBY_DESCRIPTION.include? "+JIT")
         jitText = "Running at the speed of JIT"

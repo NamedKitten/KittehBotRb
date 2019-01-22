@@ -17,7 +17,7 @@ prefix_proc = proc do |message|
     message.content[bot_mention.size..-1]
   else
     prefix = redis.get(String(message.author.id) + "-prefix")
-    if (!message.channel.id == message.author.id)
+    if (!message.channel.pm?)
       prefix = prefix || redis.get(String(message.channel.server.id) + "-prefix") 
     end
     prefix = prefix || CONFIG["default_prefix"]
@@ -25,7 +25,15 @@ prefix_proc = proc do |message|
   end
 end
 
-bot = Discordrb::Commands::CommandBot.new token: CONFIG["token"], prefix: prefix_proc
+rescue_proc = proc do |event, e|
+  message = "```rb\n"
+  message += print_stacktrace(e)
+  message += "```"
+  event.send(message)
+end
+
+
+bot = Discordrb::Commands::CommandBot.new token: CONFIG["token"], prefix: prefix_proc, advanced_functionality: true, rescue: rescue_proc
 require_relative "commands/prefixes"
 require_relative "commands/info_utils"
 require_relative "commands/debug"
