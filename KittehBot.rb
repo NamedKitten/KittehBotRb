@@ -36,8 +36,10 @@ bot = Discordrb::Commands::CommandBot.new token: CONFIG["token"], prefix: prefix
 require_relative "commands/prefixes"
 require_relative "commands/info_utils"
 require_relative "commands/debug"
+require_relative "commands/moderation"
 bot.include! Prefixes
 bot.include! InfoUtils
 bot.include! Debug
+bot.include! Moderation
 
 bot.run

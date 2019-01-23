@@ -40,7 +40,7 @@ module InfoUtils
       else
         e.add_field(name: "Humans to Bots ratio", value: "1:" + String(bots / humans), inline: true)
       end
-      e.add_field(name: "Owner", value: event.channel.server.owner.username + "#" + event.channel.server.owner.discrim, inline: true)
+      e.add_field(name: "Owner", value: event.channel.server.owner.distinct, inline: true)
       e.add_field(name: "Region", value: event.channel.server.region, inline: true)
       e.add_field(name: "Channels Count", value: event.channel.server.channels.length, inline: true)
     end
