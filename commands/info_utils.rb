@@ -1,3 +1,5 @@
+require "filesize"
+
 module InfoUtils
   extend Discordrb::Commands::CommandContainer
   command(:serverinfo, help_available: true, description: "Tells stuff about the server.") do |event|
@@ -41,6 +43,20 @@ module InfoUtils
       e.add_field(name: "Owner", value: event.channel.server.owner.username + "#" + event.channel.server.owner.discrim, inline: true)
       e.add_field(name: "Region", value: event.channel.server.region, inline: true)
       e.add_field(name: "Channels Count", value: event.channel.server.channels.length, inline: true)
+    end
+  end
+
+  command(:attachmentsInfo, help_available: true, description: "Tells you info about all attachments in the command message.") do |event|
+    event.message.attachments.each do |attachment|
+      event.channel.send_embed do |e|
+        e.title = "Attachment"
+        e.add_field(name: "Filename", value: attachment.filename, inline: true)
+        e.add_field(name: "Image?", value: attachment.image?, inline: true)
+        e.add_field(name: "Height", value: attachment.height, inline: true) unless !attachment.image?
+        e.add_field(name: "Width", value: attachment.width, inline: true) unless !attachment.image?
+        e.add_field(name: "Size", value: Filesize.from(String(attachment.size) + "B").pretty, inline: true)
+        e.image = {url: attachment.url} unless !attachment.image?
+      end
     end
   end
 
